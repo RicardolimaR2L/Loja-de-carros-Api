@@ -37,7 +37,7 @@ const uploadImagemCosmic = async (req: any) => {
       media: media_object,
       folder: folder
     })
-    console.log(response.media.url)
+
     return response.media.url
   }
 }
