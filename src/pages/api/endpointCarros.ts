@@ -63,11 +63,11 @@ const handler = nc()
           })
         }
       }
-      const oneCar = await CarrosModel.findById(id)
+      const CarroEncontrado  = await CarrosModel.findById(id)
       if (!oneCar) {
         return res.status(404).json('Carro não encontrado')
       }
-      res.status(200).json(oneCar)
+      res.status(200).json(CarroEncontrado )
     } catch (error) {
       console.error(error)
       return res
