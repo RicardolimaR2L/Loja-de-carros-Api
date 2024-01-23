@@ -4,7 +4,7 @@ import { UsuarioModel } from '../../../models/UsuarioModel'
 import Jwt from 'jsonwebtoken'
 import md5 from 'md5'
 import { RespostaPadraoMsg } from '../../../types/RespostaPadraoMsg'
-import { LoginResposta } from '../../../types/loginResposta'
+import { LoginResposta } from '../../../types/LoginResposta'
 
 const endpointLogin = async (
   req: NextApiRequest,
@@ -23,8 +23,11 @@ const endpointLogin = async (
     })
     if (usuarioEncontrado && usuarioEncontrado.length > 0) {
       const usuario = usuarioEncontrado[0]
-      const token = Jwt.sign({ _id: usuario._id }, MINHA_CHAVE_JWT)
 
+      const token = Jwt.sign(
+        { _id: usuario._id, nivel: usuario?.nivel },
+        MINHA_CHAVE_JWT
+      )
       return res
         .status(200)
         .json({ nome: usuario.nome, email: usuario.email, token })

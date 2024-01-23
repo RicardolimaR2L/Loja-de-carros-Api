@@ -26,6 +26,7 @@ export const ValidarTokenJWT =
             .status(401)
             .json({ erro: 'Não foi possivel validar o token de acesso' })
         }
+
         const token = authorization.substring(7)
         if (!token) {
           return res
@@ -33,10 +34,12 @@ export const ValidarTokenJWT =
             .json({ erro: 'Não foi possivel validar o token de acesso' })
         }
         const decoded = jwt.verify(token, MINHA_CHAVE_JWT) as JwtPayload
-        if (!decoded) {
-          return res
-            .status(401)
-            .json({ erro: 'Não foi possivel validar o token de acesso' })
+
+        if (!decoded || decoded?.nivel !== 'admin') {
+          console.log(decoded?.nivel)
+          return res.status(401).json({
+            erro: 'Não foi possivel validar o acesso, você não é um administrador'
+          })
         }
         if (!req.query) {
           req.query = {}
