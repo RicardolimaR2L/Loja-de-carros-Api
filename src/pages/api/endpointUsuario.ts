@@ -4,7 +4,8 @@ import { UsuarioModel } from '../../../models/UsuarioModel'
 import md5 from 'md5'
 
 const CadastroDeUsuario = async (req: NextApiRequest, res: NextApiResponse) => {
-  const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+\.([a-z]+)?$/i
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
   const senhaRegex =
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])[0-9a-zA-Z\W_]{8,}$/
   try {
