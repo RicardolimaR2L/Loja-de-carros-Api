@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { CarrosModel } from '../../../models/CarroModel'
 import { conectarMongoDB } from '../../../midlewares/conectarMongoDb'
+import { ValidarTokenJWT } from '../../../midlewares/validarTokenJwt'
 import {
   upload,
   uploadImagemCosmic
@@ -63,11 +64,11 @@ const handler = nc()
           })
         }
       }
-      const CarroEncontrado  = await CarrosModel.findById(id)
-      if (!oneCar) {
+      const CarroEncontrado = await CarrosModel.findById(id)
+      if (!CarroEncontrado) {
         return res.status(404).json('Carro não encontrado')
       }
-      res.status(200).json(CarroEncontrado )
+      res.status(200).json(CarroEncontrado)
     } catch (error) {
       console.error(error)
       return res
@@ -161,4 +162,4 @@ export const config = {
   }
 }
 
-export default conectarMongoDB(handler)
+export default ValidarTokenJWT(conectarMongoDB(handler))

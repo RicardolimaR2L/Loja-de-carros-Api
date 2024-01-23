@@ -8,7 +8,7 @@ const UserSchema = new Schema({
 })
 
 UserSchema.methods.isAdmin = function () {
-  return this.nivel === 'admin'
+  return this.nivel == 'admin'
 }
 
 export const UsuarioModel =

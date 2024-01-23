@@ -24,7 +24,7 @@ const endpointLogin = async (
     if (usuarioEncontrado && usuarioEncontrado.length > 0) {
       const usuario = usuarioEncontrado[0]
       const token = Jwt.sign({ _id: usuario._id }, MINHA_CHAVE_JWT)
-      console.log(usuario)
+
       return res
         .status(200)
         .json({ nome: usuario.nome, email: usuario.email, token })
