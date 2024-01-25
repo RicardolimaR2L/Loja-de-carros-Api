@@ -118,19 +118,19 @@ const handler = nc()
       carroExistenteNoBanco.marca = marca
       carroExistenteNoBanco.preco = preco
 
-      const carroExistenteNoBancoAtualizado =
-        await CarrosModel.findByIdAndUpdate(
-          id,
-          {
-            nome,
-            modelo,
-            marca,
-            preco,
-            ...(foto && { foto })
-          },
-          { new: true }
-        )
-      return res.status(200).json({ carroExistenteNoBancoAtualizado })
+      const carroAtualizado = await CarrosModel.findByIdAndUpdate(
+        id,
+        {
+          nome,
+          modelo,
+          marca,
+          preco,
+          ...(foto && { foto })
+        },
+        { new: true }
+      )
+
+      return res.status(200).json({ carroAtualizado })
     } catch (error) {
       return res.status(500).json({
         error: 'Não foi possível atualizar as informações do carro solicitado'
