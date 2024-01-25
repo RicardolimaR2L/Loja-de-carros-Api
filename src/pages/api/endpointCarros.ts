@@ -51,7 +51,6 @@ const handler = nc()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const id = req?.query?.id
-
       if (!id) {
         try {
           const todosOsCarros = await CarrosModel.find()
@@ -88,22 +87,22 @@ const handler = nc()
       const { nome, modelo, marca, preco } = req.body
       if (!nome || nome.length < 3) {
         return res.status(401).json({
-          erro: 'Nome invalido, o nome precisa ter no mínimo  3 caracteres'
+          erro: 'Nome invalido, o nome precisa ter no mínimo 3 caracteres'
         })
       }
       if (!modelo || modelo.length < 4) {
         return res.status(401).json({
-          erro: 'Modelo invalido, o modelo precisa ter no mínimo  4 caracteres'
+          erro: 'Modelo invalido, o modelo precisa ter no mínimo 4 caracteres'
         })
       }
       if (!marca || marca.length < 3) {
         return res.status(401).json({
-          erro: 'Marca invalida,  o nome precisa ter no mínimo  3 caracteres'
+          erro: 'Marca invalida,  a marca precisa ter no mínimo 3 caracteres'
         })
       }
       if (!preco || preco.length < 5) {
         return res.status(401).json({
-          erro: 'preço invalido, o preço precisa ter no mínimo de 5 caracteres'
+          erro: 'preço invalido, o preço precisa ter no mínimo 5 caracteres'
         })
       }
       const foto = await uploadImagemCosmic(req)
