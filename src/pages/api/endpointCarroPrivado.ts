@@ -7,6 +7,7 @@ import {
   uploadImagemCosmic
 } from '../../../midlewares/uploadImagemCosmic'
 import nc from 'next-connect'
+import { politicaCORS } from '../../../midlewares/politicaCors'
 
 const handler = nc()
   .use(upload.single('file'))
@@ -46,33 +47,6 @@ const handler = nc()
           'Não possivel realizar o cadatro, verifique os dados enviados ' +
           e.toString()
       })
-    }
-  })
-  .get(async (req: NextApiRequest, res: NextApiResponse) => {
-    try {
-      const id = req?.query?.id
-      if (!id) {
-        try {
-          const todosOsCarros = await CarrosModel.find()
-          return res.status(200).json(todosOsCarros)
-        } catch (error) {
-          console.error(error)
-          return res.status(500).json({
-            error:
-              'Não foi possível localizar carros cadastrados, verifique os dados de busca.'
-          })
-        }
-      }
-      const CarroEncontrado = await CarrosModel.findById(id)
-      if (!CarroEncontrado) {
-        return res.status(404).json('Carro não encontrado')
-      }
-      res.status(200).json(CarroEncontrado)
-    } catch (error) {
-      console.error(error)
-      return res
-        .status(500)
-        .json({ error: 'Não foi possível localizar o carro' })
     }
   })
 
@@ -161,4 +135,4 @@ export const config = {
   }
 }
 
-export default ValidarTokenJWT(conectarMongoDB(handler))
+export default politicaCORS(ValidarTokenJWT(conectarMongoDB(handler)))
