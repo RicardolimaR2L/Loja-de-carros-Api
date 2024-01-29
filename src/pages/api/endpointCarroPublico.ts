@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { CarrosModel } from '../../../models/CarroModel'
 import { conectarMongoDB } from '../../../midlewares/conectarMongoDb'
 import nc from 'next-connect'
+import { politicaCORS } from '../../../midlewares/politicaCors'
 
 const handler = nc().get(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -35,4 +36,4 @@ export const config = {
   }
 }
 
-export default conectarMongoDB(handler)
+export default politicaCORS(conectarMongoDB(handler))
