@@ -44,7 +44,7 @@ const handler = nc()
       console.log(e)
       return res.status(500).json({
         erro:
-          'Não possivel realizar o cadatro, verifique os dados enviados ' +
+          'Não  foi possivel realizar o cadastro, verifique os dados enviados ' +
           e.toString()
       })
     }
