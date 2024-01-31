@@ -7,7 +7,7 @@ O projeto é uma API REST de uma loja online de carros.
 ## Instruções de Uso
 
 1. Clone este repositório.
-2. Certifique-se de ter o MongoDB instalado e em execução.
+2. Certifique-se de ter o Nodejs instalado e em execução.
 3. Instale as dependências utilizando `npm install`.
 4. Execute a aplicação utilizando o comando  `npm run dev ` no terminal.
 5. As rotas estarão disponíveis em `http://localhost:<porta>`.
