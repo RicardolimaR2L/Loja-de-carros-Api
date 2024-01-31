@@ -53,7 +53,7 @@ const handler = nc()
 
   .put(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-      const id = req?.query?.id
+      const id = req?.body?.id
       if (!id) {
         return res
           .status(500)
