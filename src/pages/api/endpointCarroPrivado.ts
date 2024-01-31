@@ -80,18 +80,22 @@ const handler = nc()
         })
       }
       const foto = await uploadImagemCosmic(req)
-
+      console.log(foto)
+      
+      
+      
       const carroExistenteNoBanco = await CarrosModel.findById(id)
-
+      console.log(carroExistenteNoBanco)
+      
       if (!carroExistenteNoBanco) {
         return res.status(404).json({ error: 'Carro não encontrado' })
       }
-
+      
       carroExistenteNoBanco.nome = nome
       carroExistenteNoBanco.modelo = modelo
       carroExistenteNoBanco.marca = marca
       carroExistenteNoBanco.preco = preco
-
+      
       const carroAtualizado = await CarrosModel.findByIdAndUpdate(
         id,
         {
@@ -102,7 +106,8 @@ const handler = nc()
           ...(foto && { foto })
         },
         { new: true }
-      )
+        )
+        console.log(carroAtualizado)
 
       return res.status(200).json({ carroAtualizado })
     } catch (error) {
@@ -114,7 +119,7 @@ const handler = nc()
 
   .delete(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-      const id = req?.query?.id
+      const id = req?.body?.id
       const CarroASerdeletado = await CarrosModel.findById(id)
       if (!CarroASerdeletado) {
         return res.status(404).json({ erro: 'Carro nao encontrado' })
