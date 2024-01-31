@@ -8,7 +8,7 @@ export const politicaCORS =
     try {
       await NextCors(req, res, {
         origin: '*',
-        method: ['GET', 'POST', 'PUT'], //metodos utilizados nas apis
+        method: ['GET', 'POST', 'PUT' ,'DELETE', 'OPTIONS', 'PATCH', 'HEAD'], //metodos utilizados nas apis
         optionsSuccessStatus: 200 //tratar os erros de http 204, navegadores antigos dão problemas quando se retorna 204
       })
 

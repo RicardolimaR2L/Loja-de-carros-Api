@@ -13,6 +13,7 @@ const handler = nc()
   .use(upload.single('file'))
   .post(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
+      console.log(req.body)
       const { nome, modelo, marca, preco } = req.body
       if (!nome || nome.length < 3) {
         return res.status(400).json({ erro: 'Nome invalido' })
