@@ -119,7 +119,7 @@ const handler = nc()
 
   .delete(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-      const id = req?.body?.id
+      const id = req?.query?.id
       const CarroASerdeletado = await CarrosModel.findById(id)
       if (!CarroASerdeletado) {
         return res.status(404).json({ erro: 'Carro nao encontrado' })
