@@ -7,13 +7,11 @@ O projeto é uma API REST de uma loja online de carros.
 ## Instruções de Uso
 
 1. Clone este repositório.
-2. Certifique-se de ter o Nodejs instalado e em execução.
+2. Certifique-se de ter o Nodejs versão 18.18 instalado e em execução.
 3. Instale as dependências utilizando `npm install`.
 4. Execute a aplicação utilizando o comando  `npm run dev ` no terminal.
 5. As rotas estarão disponíveis em `http://localhost:<porta>`.
-6. Certifique-se de configurar corretamente as variáveis de ambiente para a conexão com o banco de dados seguindo o arquivo .env.example.
-7. Para utilizar as rotas que requerem autenticação, obtenha um token JWT válido através da rota de login.
-8. Para o upload de imagens, envie os arquivos utilizando o formato `multipart/formdata` para a rota adequada.
+6. Certifique-se de configurar corretamente as variáveis de ambiente,  crie um arquivo .env para a conexão com o banco de dados seguindo o arquivo .env.example.
 
 ## Rotas
 
