@@ -1,22 +1,23 @@
 import type { NextApiHandler, NextApiResponse, NextApiRequest } from 'next'
 import type { RespostaPadraoMsg } from '../types/RespostaPadraoMsg'
 import jwt, { JwtPayload } from 'jsonwebtoken'
+import { MiddlewareMessagesHelper } from './helpers/messageHelper'
 
 export const ValidarTokenJWT =
   (handler: NextApiHandler) =>
     (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>) => {
       try {
-        const { MINHA_CHAVE_JWT } = process.env
+        const { JWT_KEY } = process.env
 
-        if (!MINHA_CHAVE_JWT) {
+        if (!JWT_KEY) {
           return res.status(500).json({
-            erro: 'Env de chave JWT não informada na execução do projeto'
+            erro: MiddlewareMessagesHelper.ENV_JWT_NOT_INFORMED
           })
         }
         if (!req || !req.headers) {
           return res
             .status(401)
-            .json({ erro: 'Não foi possivel validar o token de acesso' })
+            .json({ erro: MiddlewareMessagesHelper.TOKEN_VALIDATION_ERROR })
         }
 
         if (req.method !== 'OPTIONS') {
@@ -24,7 +25,7 @@ export const ValidarTokenJWT =
           if (!authorization) {
             return res
               .status(401)
-              .json({ erro: 'Não foi possivel validar o token de acesso' })
+              .json({ erro: MiddlewareMessagesHelper.TOKEN_VALIDATION_ERROR })
           }
 
           const token = authorization.substring(7)
@@ -32,9 +33,9 @@ export const ValidarTokenJWT =
           if (!token) {
             return res
               .status(401)
-              .json({ erro: 'Não foi possivel validar o token de acesso' })
+              .json({ erro: MiddlewareMessagesHelper.TOKEN_VALIDATION_ERROR })
           }
-          const decoded = jwt.verify(token, MINHA_CHAVE_JWT) as JwtPayload
+          const decoded = jwt.verify(token, JWT_KEY) as JwtPayload
           if (!req.query) {
             req.query = {}
           }
@@ -44,7 +45,7 @@ export const ValidarTokenJWT =
         console.log(error)
         return res
           .status(401)
-          .json({ erro: 'Não foi possivel validar o token de acesso' })
+          .json({ erro: MiddlewareMessagesHelper.TOKEN_VALIDATION_ERROR })
       }
 
       return handler(req, res)

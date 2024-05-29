@@ -1,22 +1,23 @@
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from 'next'
 import type { RespostaPadraoMsg } from '../types/RespostaPadraoMsg'
 import NextCors from 'nextjs-cors'
+import { MiddlewareMessagesHelper } from './helpers/messageHelper'
 
-export const politicaCORS =
+export const politicsCORS =
   (handler: NextApiHandler) =>
   async (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>) => {
     try {
       await NextCors(req, res, {
         origin: '*',
         method: ['GET', 'POST', 'PUT' ,'DELETE', 'OPTIONS', 'PATCH', 'HEAD'], 
-        optionsSuccessStatus: 200 //tratar os erros de http 204, navegadores antigos dão problemas quando se retorna 204
+        optionsSuccessStatus: 200 
       })
 
       return handler(req, res)
     } catch (e) {
-      console.log('Erro ao tratar a politica de CORS:', e)
+      console.log(e)
       return res
         .status(500)
-        .json({ erro: 'Ocorreu erro ao tratar a politica de CORS' })
+        .json({ erro: MiddlewareMessagesHelper.CORS_POLICY_ERROR })
     }
   }
