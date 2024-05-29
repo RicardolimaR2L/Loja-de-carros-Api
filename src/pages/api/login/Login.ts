@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { conectarMongoDB } from '../../../../midlewares/conectarMongoDb'
-import { UsuarioModel } from '../../../../models/UsuarioModel'
+import { connectMongoDB } from '../../../../midlewares/connectMongoDB'
+import { UserModel } from '../../../../models/UserModel'
 import Jwt from 'jsonwebtoken'
 import md5 from 'md5'
 import { RespostaPadraoMsg } from '../../../../types/RespostaPadraoMsg'
 import { LoginResposta } from '../../../../types/LoginResposta'
-import { politicaCORS } from '../../../../midlewares/politicaCors'
+import { politicsCORS } from '../../../../midlewares/politicsCORS'
 import { LoginMessagesHelper } from './helpers/messageHelper'
 
 const endpointLogin = async (
@@ -18,24 +18,24 @@ const endpointLogin = async (
   }
 
   if (req.method === 'POST') {
-    const { login, senha } = req?.body
-    const usuarioEncontrado = await UsuarioModel.find({
+    const { login, password } = req?.body
+    const userFound = await UserModel.find({
       email: login,
-      senha: md5(senha)
+      password: md5(password)
     })
-    if (usuarioEncontrado && usuarioEncontrado.length > 0) {
-      const usuario = usuarioEncontrado[0]
+    if (userFound && userFound.length > 0) {
+      const user = userFound[0]
 
       const token = Jwt.sign(
-        { _id: usuario._id, nivel: usuario?.nivel },
+        { _id: user._id, nivel: user?.nivel },
         MINHA_CHAVE_JWT
       )
       return res
         .status(200)
-        .json({ nome: usuario.nome, email: usuario.email, token })
+        .json({ nome: user.nome, email: user.email, token })
     }
     return res.status(405).json({ erro: LoginMessagesHelper.USER_OR_PASSWORD_NOT_FOUND})
   }
   return res.status(405).json({ erro:LoginMessagesHelper.METHOD_NOT_VALID })
 }
-export default politicaCORS(conectarMongoDB(endpointLogin))
+export default politicsCORS(connectMongoDB(endpointLogin))

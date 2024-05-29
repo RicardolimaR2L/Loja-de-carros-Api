@@ -1,15 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { CarrosModel } from '../../../../models/CarroModel'
-import { conectarMongoDB } from '../../../../midlewares/conectarMongoDb'
-import { ValidarTokenJWT } from '../../../../midlewares/validarTokenJwt'
+import { CarModel } from '../../../../models/CarModel'
+import { connectMongoDB } from '../../../../midlewares/connectMongoDB'
+import { validateJwtToken } from '../../../../midlewares/validateJwtToken';
 import {
   upload,
   uploadImagemCosmic
 } from '../../../../midlewares/uploadImagemCosmic'
 import nc from 'next-connect'
-import { politicaCORS } from '../../../../midlewares/politicaCors'
+import { politicsCORS } from '../../../../midlewares/politicsCORS'
 import { CarMessagesHelper } from './helpers/messageHelper'
-import { nameValidation, brandValidation, modelValidation, priceValidation } from '../../../../validators/validator'
+import { nameValidation, brandValidation, modelValidation, priceValidation } from '../../../../validators/carValidator'
 
 
 const handler = nc()
@@ -37,13 +37,13 @@ const handler = nc()
         return res.status(400).json({ erro: CarMessagesHelper.INVALID_PHOTO })
       }
       const newCar = {
-        nome: name,
-        modelo: model,
-        marca: brand,
-        foto: photo,
-        preco: price
+        name: name,
+        model: model,
+        brand: brand,
+        photo: photo,
+        price: price
       }
-      await CarrosModel.create(newCar)
+      await CarModel.create(newCar)
       return res.status(200).json({ msg: CarMessagesHelper.CAR_REGISTER_SUCCESS })
     } catch (e: any) {
       console.log(e)
@@ -61,7 +61,7 @@ const handler = nc()
       if (!id) {
         return res
           .status(500)
-          .json({ error: CarMessagesHelper.CAR_NOT_FOUND })
+          .json({ error: CarMessagesHelper.CAR_ID_NOT_PROVIDED })
       }
       const { name, model, brand, price } = req.body
 
@@ -86,17 +86,17 @@ const handler = nc()
         return res.status(400).json({ erro: CarMessagesHelper.INVALID_PHOTO })
       }
 
-      const existingCar = await CarrosModel.findById(id)
+      const existingCar = await CarModel.findById(id)
       if (!existingCar) {
         return res.status(404).json({ error: CarMessagesHelper.CAR_NOT_FOUND })
       }
 
-      existingCar.nome = name
-      existingCar.modelo = model
-      existingCar.marca = brand
-      existingCar.preco = price
+      existingCar.name = name
+      existingCar.model = model
+      existingCar.brand = brand
+      existingCar.price = price
 
-      const updatedCar = await CarrosModel.findByIdAndUpdate(
+      const updatedCar = await CarModel.findByIdAndUpdate(
         id,
         {
           name,
@@ -118,11 +118,11 @@ const handler = nc()
   .delete(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const id = req?.query?.id
-      const CarToBedeleted = await CarrosModel.findById(id)
+      const CarToBedeleted = await CarModel.findById(id)
       if (!CarToBedeleted) {
         return res.status(404).json({ erro: CarMessagesHelper.CAR_NOT_FOUND })
       }
-      const deletedCar = await CarrosModel.findByIdAndDelete(id)
+      const deletedCar = await CarModel.findByIdAndDelete(id)
       return res.status(200).json({ msg: CarMessagesHelper.CAR_DELETE_SUCCESS })
     } catch (error) {
       console.log(error)
@@ -138,4 +138,4 @@ export const config = {
   }
 }
 
-export default politicaCORS(ValidarTokenJWT(conectarMongoDB(handler)))
+export default politicsCORS(validateJwtToken(connectMongoDB(handler)))

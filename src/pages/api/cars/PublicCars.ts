@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { CarrosModel } from '../../../../models/CarroModel'
-import { conectarMongoDB } from '../../../../midlewares/conectarMongoDb'
+import { CarModel } from '../../../../models/CarModel'
+import { connectMongoDB } from '../../../../midlewares/connectMongoDB'
 import nc from 'next-connect'
-import { politicaCORS } from '../../../../midlewares/politicaCors'
+import { politicsCORS } from '../../../../midlewares/politicsCORS'
 import { CarMessagesHelper } from './helpers/messageHelper'
 
 const handler = nc().get(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -10,7 +10,7 @@ const handler = nc().get(async (req: NextApiRequest, res: NextApiResponse) => {
     const id = req?.query?.id
     if (!id) {
       try {
-        const allCars = await CarrosModel.find()
+        const allCars = await CarModel.find()
         return res.status(200).json(allCars)
       } catch (error) {
         console.error(error)
@@ -20,11 +20,11 @@ const handler = nc().get(async (req: NextApiRequest, res: NextApiResponse) => {
         })
       }
     }
-    const carFound = await CarrosModel.findById(id)
-    if (!carFound) {
+    const foundCar = await CarModel.findById(id)
+    if (!foundCar) {
       return res.status(404).json(CarMessagesHelper.CAR_NOT_FOUND)
     }
-    res.status(200).json(carFound)
+    res.status(200).json(foundCar)
   } catch (error) {
     console.error(error)
     return res.status(500).json({ error: CarMessagesHelper.CAR_NOT_FOUND })
@@ -37,4 +37,4 @@ export const config = {
   }
 }
 
-export default politicaCORS(conectarMongoDB(handler))
+export default politicsCORS(connectMongoDB(handler))
