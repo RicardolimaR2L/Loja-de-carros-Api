@@ -1,14 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { conectarMongoDB } from '../../../midlewares/conectarMongoDb'
-import { UsuarioModel } from '../../../models/UsuarioModel'
+import { conectarMongoDB } from '../../../../midlewares/conectarMongoDb'
+import { UsuarioModel } from '../../../../models/UsuarioModel'
 import md5 from 'md5'
-import { politicaCORS } from '../../../midlewares/politicaCors'
+import { politicaCORS } from '../../../../midlewares/politicaCors'
 
 const CadastroDeUsuario = async (req: NextApiRequest, res: NextApiResponse) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
   const senhaRegex =
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])[0-9a-zA-Z\W_]{8,}$/
+    
   try {
     const { nome, email, senha } = req?.body
 
@@ -33,6 +34,7 @@ const CadastroDeUsuario = async (req: NextApiRequest, res: NextApiResponse) => {
       senha: md5(req.body?.senha),
       nivel: req.body?.nivel
     }
+
     await UsuarioModel.create(UsuarioASerSalvo)
     return res
       .status(200)

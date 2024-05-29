@@ -35,12 +35,6 @@ export const ValidarTokenJWT =
               .json({ erro: 'Não foi possivel validar o token de acesso' })
           }
           const decoded = jwt.verify(token, MINHA_CHAVE_JWT) as JwtPayload
-
-          // if (!decoded || (decoded?.nivel !== 'admin' && req.method !== 'GET' && req.method !== 'PUT' && req.method !== 'DELETE' && req.method !== 'POST')) {
-          //   return res.status(401).json({
-          //     erro: 'Esse recurso só pode ser acessado por administradores'
-          //   })
-          // }
           if (!req.query) {
             req.query = {}
           }

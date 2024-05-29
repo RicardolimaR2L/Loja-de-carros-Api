@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { conectarMongoDB } from '../../../midlewares/conectarMongoDb'
-import { UsuarioModel } from '../../../models/UsuarioModel'
+import { conectarMongoDB } from '../../../../midlewares/conectarMongoDb'
+import { UsuarioModel } from '../../../../models/UsuarioModel'
 import Jwt from 'jsonwebtoken'
 import md5 from 'md5'
-import { RespostaPadraoMsg } from '../../../types/RespostaPadraoMsg'
-import { LoginResposta } from '../../../types/LoginResposta'
-import { politicaCORS } from '../../../midlewares/politicaCors'
+import { RespostaPadraoMsg } from '../../../../types/RespostaPadraoMsg'
+import { LoginResposta } from '../../../../types/LoginResposta'
+import { politicaCORS } from '../../../../midlewares/politicaCors'
+import { LoginMessagesHelper } from './helpers/messageHelper'
 
 const endpointLogin = async (
   req: NextApiRequest,
@@ -13,7 +14,7 @@ const endpointLogin = async (
 ) => {
   const { MINHA_CHAVE_JWT } = process.env
   if (!MINHA_CHAVE_JWT) {
-    return res.status(500).json({ erro: 'Env jwt não informada' })
+    return res.status(500).json({ erro: LoginMessagesHelper.ENV_JWT_NOT_INFORMED })
   }
 
   if (req.method === 'POST') {
@@ -33,8 +34,8 @@ const endpointLogin = async (
         .status(200)
         .json({ nome: usuario.nome, email: usuario.email, token })
     }
-    return res.status(405).json({ erro: 'Usuário ou senha não encontrado' })
+    return res.status(405).json({ erro: LoginMessagesHelper.USER_OR_PASSWORD_NOT_FOUND})
   }
-  return res.status(405).json({ erro: 'metodo informado não é válido' })
+  return res.status(405).json({ erro:LoginMessagesHelper.METHOD_NOT_VALID })
 }
 export default politicaCORS(conectarMongoDB(endpointLogin))
