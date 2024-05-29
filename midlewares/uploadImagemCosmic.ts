@@ -1,13 +1,14 @@
 import { createBucketClient } from '@cosmicjs/sdk'
 import multer from 'multer'
+import { MiddlewareMessagesHelper } from './helpers/messageHelper'
 
-const { BUCKET_SLUG_CARROS, CHAVE_LEITURA_CARROS, CHAVE_DE_GRAVACAO_CARROS } =
+const {CAR_BUCKET_SLUG,CAR_READ_KEY,CAR_WRITE_KEY  } =
   process.env
 
 const cosmic = createBucketClient({
-  bucketSlug: BUCKET_SLUG_CARROS as string,
-  readKey: CHAVE_LEITURA_CARROS as string,
-  writeKey: CHAVE_DE_GRAVACAO_CARROS as string
+  bucketSlug:CAR_BUCKET_SLUG as string,
+  readKey: CAR_READ_KEY as string,
+  writeKey: CAR_WRITE_KEY as string
 })
 
 const storage = multer.memoryStorage()
@@ -20,7 +21,7 @@ const uploadImagemCosmic = async (req: any) => {
       !req.file.originalname.includes('.jpg') &&
       !req.file.originalname.includes('.jpeg')
     ) {
-      throw new Error('Extensao da imagem invalida')
+      throw new Error(MiddlewareMessagesHelper.IMAGE_NOT_VALID)
     }
 
     const media_object = {

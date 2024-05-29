@@ -4,5 +4,6 @@ export const MiddlewareMessagesHelper = {
     TOKEN_VALIDATION_ERROR: 'Não foi possível validar o token de acesso.',
     ENV_JWT_NOT_INFORMED:'Env de chave JWT não informada na execução do projeto',
     CONNECTED_DATABASE:'Banco de dados conectado',
-    CONNECTED_DATABASE_ERROR:'Ocorreu um erro ao conectar no banco'
+    CONNECTED_DATABASE_ERROR:'Ocorreu um erro ao conectar no banco',
+    IMAGE_NOT_VALID:'Extensao da imagem invalida'
 };

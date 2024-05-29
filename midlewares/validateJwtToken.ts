@@ -3,7 +3,7 @@ import type { RespostaPadraoMsg } from '../types/RespostaPadraoMsg'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { MiddlewareMessagesHelper } from './helpers/messageHelper'
 
-export const ValidarTokenJWT =
+export const validateJwtToken =
   (handler: NextApiHandler) =>
     (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>) => {
       try {
