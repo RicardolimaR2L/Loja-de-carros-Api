@@ -17,19 +17,19 @@ O projeto é uma API REST de uma loja online de carros.
 
 ### Temos as seguintes rotas disponíveis  
 
-1. **[http://localhost:<porta>/carros](http://localhost:<porta>/Carros)**:
+1. **[http://localhost:<porta>/Cars](http://localhost:<porta>/Cars)**:
    - Rota que requer autenticação de usuários para acesso. Permite as seguintes operações:
      - **Métodos disponíveis**: POST, PUT e DELETE.
 
-2. **[http://localhost:<porta>/carros-publicos](http://localhost:<porta>/CarrosPublicos)**:
+2. **[http://localhost:<porta>/PublicCars](http://localhost:<porta>/PublicCars)**:
    - Rota pública que possibilita a visualização de carros na página inicial sem a necessidade de autenticação.
      - **Métodos disponíveis**: GET.
 
-3. **[http://localhost:<porta>/login](http://localhost:<porta>/Login)**:
+3. **[http://localhost:<porta>/Login](http://localhost:<porta>/Login)**:
    - Rota responsável pela autenticação do usuário.
      - **Métodos disponíveis**: POST.
 
-4. **[http://localhost:<porta>/usuarios](http://localhost:<porta>/Usuarios)**:
+4. **[http://localhost:<porta>/User](http://localhost:<porta>/User)**:
    - Rota para o cadastro de usuários.
      - **Métodos disponíveis**: POST.
 
