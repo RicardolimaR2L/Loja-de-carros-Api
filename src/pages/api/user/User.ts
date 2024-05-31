@@ -9,8 +9,7 @@ import {emailValidation, nameValidation, passwordValidation} from '../../../vali
 const UserRegister = async (req: NextApiRequest, res: NextApiResponse) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
-  const passwordRegex =
-    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])[0-9a-zA-Z\W_]{8,}$/
+  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])[0-9a-zA-Z\W_]{8,}$/
     
   try {
     const { name, email, password } = req?.body
