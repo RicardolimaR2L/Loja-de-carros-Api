@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { CarModel } from '../../../models/CarModel'
-import { connectMongoDB } from '../../../midlewares/connectMongoDB'
+import { CarModel } from '../../../../models/CarModel'
+import { connectMongoDB } from '../../../../midlewares/connectMongoDB'
 import nc from 'next-connect'
-import { politicsCORS } from '../../../midlewares/politicsCORS'
+import { politicsCORS } from '../../../../midlewares/politicsCORS'
 import { CarMessagesHelper } from './helpers/messageHelper'
 
 const handler = nc().get(async (req: NextApiRequest, res: NextApiResponse) => {

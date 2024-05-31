@@ -1,15 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { CarModel } from '../../../models/CarModel'
-import { connectMongoDB } from '../../../midlewares/connectMongoDB'
-import { validateJwtToken } from '../../../midlewares/validateJwtToken';
+import { CarModel } from '../../../../models/CarModel'
+import { connectMongoDB } from '../../../../midlewares/connectMongoDB'
+import { validateJwtToken } from '../../../../midlewares/validateJwtToken';
 import {
   upload,
   uploadImagemCosmic
-} from '../../../midlewares/uploadImagemCosmic'
+} from '../../../../midlewares/uploadImagemCosmic'
 import nc from 'next-connect'
-import { politicsCORS } from '../../../midlewares/politicsCORS'
+import { politicsCORS } from '../../../../midlewares/politicsCORS'
 import { CarMessagesHelper } from './helpers/messageHelper'
-import { nameValidation, brandValidation, modelValidation, priceValidation } from '../../../validators/carValidator'
+import { nameValidation, brandValidation, modelValidation, priceValidation } from '../../../../validators/carValidator'
 
 
 const handler = nc()

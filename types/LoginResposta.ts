@@ -1,5 +1,5 @@
 export type LoginResposta = {
-  name: string
+  nome: string
   email: string
   token: string
 }
