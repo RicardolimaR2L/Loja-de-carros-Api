@@ -5,7 +5,7 @@ const car = new Schema({
   brand: { type: String, required: true },
   model: { type: String, required: true },
   photo: { type: String, required: true },
-  price: { type: String, required: false }
+  price: { type: String, required: true }
 })
 
 export const CarModel =
