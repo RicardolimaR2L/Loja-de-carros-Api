@@ -12,8 +12,8 @@ const endpointLogin = async (
   req: NextApiRequest,
   res: NextApiResponse<RespostaPadraoMsg | LoginResposta>
 ) => {
-  const { JWT_KEY } = process.env
-  if (!JWT_KEY) {
+  const SecretKey = process.env.JWT_KEY
+  if (!SecretKey) {
     return res.status(500).json({ erro: LoginMessagesHelper.ENV_JWT_NOT_INFORMED })
   }
 
@@ -28,7 +28,7 @@ const endpointLogin = async (
 
       const token = Jwt.sign(
         { _id: user._id, nivel: user?.nivel },
-        JWT_KEY
+        SecretKey
       )
       return res
         .status(200)
@@ -38,4 +38,6 @@ const endpointLogin = async (
   }
   return res.status(405).json({ erro:LoginMessagesHelper.METHOD_NOT_VALID })
 }
+
+
 export default politicsCORS(connectMongoDB(endpointLogin))
