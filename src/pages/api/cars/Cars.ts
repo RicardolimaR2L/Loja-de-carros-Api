@@ -9,33 +9,21 @@ import {
 import nc from 'next-connect'
 import { politicsCORS } from '../../../midlewares/politicsCORS'
 import { CarMessagesHelper } from './helpers/messageHelper'
-import { nameValidation, brandValidation, modelValidation, priceValidation } from '../../../validators/carValidator'
+import { validateCar, validatePhoto } from '../../../validators/carValidator'
 
 
 const handler = nc()
   .use(upload.single('file'))
   .post(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-      const { name, model, brand, price } = req.body
+      const { name, model, brand, price } = req.body;
 
-      if (!nameValidation(name)) {
-        return res.status(400).json({ erro: CarMessagesHelper.INVALID_NAME })
-      }
+      validateCar(req, res);
 
-      if (!modelValidation(model)) {
-        return res.status(400).json({ erro: CarMessagesHelper.INVALID_MODEL })
-      }
-      if (!brandValidation(brand)) {
-        return res.status(400).json({ erro: CarMessagesHelper.INVALID_BRAND })
-      }
-      if (!priceValidation(price)) {
-        return res.status(400).json({ erro: CarMessagesHelper.INVALID_PRICE })
-      }
-      const photo = await uploadImagemCosmic(req)
+      const photo = await uploadImagemCosmic(req);
 
-      if (!photo) {
-        return res.status(400).json({ erro: CarMessagesHelper.INVALID_PHOTO })
-      }
+      validatePhoto(req, res);
+
       const newCar = {
         name: name,
         model: model,
@@ -43,7 +31,8 @@ const handler = nc()
         photo: photo,
         price: price
       }
-      await CarModel.create(newCar)
+
+      await CarModel.create(newCar);
       return res.status(200).json({ msg: CarMessagesHelper.CAR_REGISTER_SUCCESS })
     } catch (e: any) {
       console.log(e)
@@ -60,41 +49,27 @@ const handler = nc()
       const id = req?.body?.id
       if (!id) {
         return res
-          .status(500)
+          .status(400)
           .json({ error: CarMessagesHelper.CAR_ID_NOT_PROVIDED })
       }
       const { name, model, brand, price } = req.body
 
-      if (!nameValidation(name)) {
+      validateCar(req, res);
 
-        return res.status(400).json({ erro: CarMessagesHelper.INVALID_NAME })
-      }
-
-      if (!modelValidation(model)) {
-        return res.status(400).json({ erro: CarMessagesHelper.INVALID_MODEL })
-      }
-      if (!brandValidation(brand)) {
-        return res.status(400).json({ erro: CarMessagesHelper.INVALID_BRAND })
-      }
-      if (!priceValidation(price)) {
-        return res.status(400).json({ erro: CarMessagesHelper.INVALID_PRICE })
-      }
-
-      const photo = await uploadImagemCosmic(req)
-
-      if (!photo) {
-        return res.status(400).json({ erro: CarMessagesHelper.INVALID_PHOTO })
-      }
+      const photo = await validatePhoto(req, res);
 
       const existingCar = await CarModel.findById(id)
       if (!existingCar) {
         return res.status(404).json({ error: CarMessagesHelper.CAR_NOT_FOUND })
       }
-
       existingCar.name = name
       existingCar.model = model
       existingCar.brand = brand
       existingCar.price = price
+
+      if (photo) {
+        existingCar.photo = photo
+      }
 
       const updatedCar = await CarModel.findByIdAndUpdate(
         id,
@@ -103,7 +78,7 @@ const handler = nc()
           model,
           brand,
           price,
-          ...(photo && { photo })
+          ...(photo && { photo: photo }),
         },
         { new: true }
       )
@@ -131,7 +106,7 @@ const handler = nc()
         .json({ erro: CarMessagesHelper.CAR_DELETE_FAILED })
     }
   })
-
+  
 export const config = {
   api: {
     bodyParser: false
@@ -139,3 +114,5 @@ export const config = {
 }
 
 export default politicsCORS(validateJwtToken(connectMongoDB(handler)))
+
+
