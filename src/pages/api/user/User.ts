@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { connectMongoDB } from '../../../../midlewares/connectMongoDB'
-import { UserModel } from '../../../../models/UserModel'
+import { connectMongoDB } from '../../../midlewares/connectMongoDB'
+import { UserModel } from '../../../models/UserModel'
 import md5 from 'md5'
-import { politicsCORS } from '../../../../midlewares/politicsCORS'
+import { politicsCORS } from '../../../midlewares/politicsCORS'
 import { UserMessagesHelper } from './helpers/messageHelper'
-import {emailValidation, nameValidation, passwordValidation} from '../../../../validators/userValidator'
+import {emailValidation, nameValidation, passwordValidation} from '../../../validators/userValidator'
 
 const UserRegister = async (req: NextApiRequest, res: NextApiResponse) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
