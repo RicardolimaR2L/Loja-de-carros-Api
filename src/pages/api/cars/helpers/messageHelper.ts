@@ -11,6 +11,7 @@ export const CarMessagesHelper = {
     CAR_UPDATE_FAILED: 'Não foi possível atualizar as informações do carro solicitado',
     CAR_NOT_FOUND: 'Carro não encontrado',
     CAR_DELETE_SUCCESS: 'Carro excluído com sucesso',
-    CAR_DELETE_FAILED: 'Não foi possível excluir o carro solicitado'
+    CAR_DELETE_FAILED: 'Não foi possível excluir o carro solicitado',
+    FILTER_NOT_VALID: 'Por favor digite  nome, marca, ano ou preço do carro que você deseja pesquisar.  '
   };
   
