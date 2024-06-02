@@ -2,7 +2,7 @@ const nameValidation = (name: string): boolean => {
     if (!name) {
       return false;
     }
-    return name.toString().length >= 2;
+    return name.toString().length <= 2;
   };
  
   const emailValidation = (email: string): boolean => {
