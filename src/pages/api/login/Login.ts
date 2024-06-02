@@ -12,8 +12,8 @@ const endpointLogin = async (
   req: NextApiRequest,
   res: NextApiResponse<RespostaPadraoMsg | LoginResposta>
 ) => {
-  const SecretKey = process.env.JWT_KEY
-  if (!SecretKey) {
+  const {JWT_KEY} = process.env
+  if (!JWT_KEY) {
     return res.status(500).json({ erro: LoginMessagesHelper.ENV_JWT_NOT_INFORMED })
   }
 
@@ -28,7 +28,7 @@ const endpointLogin = async (
 
       const token = Jwt.sign(
         { _id: user._id, nivel: user?.nivel },
-        SecretKey
+        JWT_KEY
       )
       return res
         .status(200)
